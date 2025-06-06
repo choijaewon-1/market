@@ -5,7 +5,8 @@ from django.db.models import Q
 from .models import Post
 from .forms import PostForm
 
-# ✅ 게시글 목록 (검색, 필터, 정렬 포함)
+from django.core.paginator import Paginator
+
 @login_required
 def post_list(request):
     sort = request.GET.get('sort', 'latest')
@@ -27,12 +28,18 @@ def post_list(request):
     else:
         posts = posts.order_by('-created_at')
 
+    # ✅ 페이지네이션: 한 페이지당 5개
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+
     return render(request, 'market/post_list.html', {
         'posts': posts,
         'sort': sort,
         'category': category,
         'search': search,
     })
+
 
 # ✅ 게시글 상세보기
 def post_detail(request, pk):
