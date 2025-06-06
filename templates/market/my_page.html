@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}마이페이지{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">👤 마이페이지</h2>
+
+<!-- 👤 회원 정보 카드 -->
+<div class="card p-4 mb-4 shadow-sm">
+  <h5 class="mb-3">회원 정보</h5>
+  <p><strong>아이디:</strong> {{ user.username }}</p>
+  <p><strong>이메일:</strong> {{ user.email }}</p>
+</div>
+
+<!-- 📝 내가 쓴 글 목록 -->
+<h5 class="mb-3">📝 내가 작성한 글</h5>
+
+{% if posts %}
+  <div class="list-group">
+    {% for post in posts %}
+      <a href="{% url 'post_detail' post.pk %}" class="list-group-item list-group-item-action">
+        <div class="d-flex justify-content-between">
+          <strong>{{ post.title }}</strong>
+          <small class="text-muted">{{ post.created_at|date:"Y-m-d H:i" }}</small>
+        </div>
+        <div class="text-muted small mt-1">
+          💰 {{ post.price|intcomma }}원 |
+          📂 {{ post.category }} |
+          🔄 {{ post.status }}
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted">아직 작성한 글이 없습니다.</p>
+{% endif %}
+
+<!-- 🔙 목록으로 버튼 -->
+<div class="mt-4">
+  <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">← 전체 게시글 보기</a>
+</div>
+{% endblock %}

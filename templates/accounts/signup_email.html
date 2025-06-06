@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}회원가입 - 이메일 입력{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-center">📧 학교 이메일 입력</h2>
+
+<form method="post" class="card p-4 shadow-sm" style="max-width: 400px; margin: auto;">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  <div class="mb-3">
+    <label for="id_email" class="form-label">이메일 주소</label>
+    {{ form.email }}
+    {% if form.email.errors %}
+      <div class="text-danger small">{{ form.email.errors }}</div>
+    {% endif %}
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100">인증 코드 받기</button>
+</form>
+
+<div class="text-center mt-3">
+  <a href="{% url 'login' %}">이미 계정이 있으신가요? 로그인</a>
+</div>
+{% endblock %}

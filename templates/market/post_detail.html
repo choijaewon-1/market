@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="card p-4 shadow-sm">
+  <!-- 📌 제목 -->
+  <h2 class="mb-3">{{ post.title }}</h2>
+
+  <!-- 🧾 기본 정보 -->
+  <p class="text-muted">
+    👤 <strong>작성자:</strong> {{ post.author }} |
+    📅 <strong>작성일:</strong> {{ post.created_at|date:"Y-m-d H:i" }}
+  </p>
+
+  <!-- 💰 추가 정보 -->
+  <p>
+    💰 <strong>가격:</strong> {{ post.price|intcomma }}원<br>
+    📂 <strong>카테고리:</strong> {{ post.category }}<br>
+    🔄 <strong>상태:</strong> {{ post.status }}
+  </p>
+
+  <hr>
+
+  <!-- 📝 본문 -->
+  <p class="mb-4">{{ post.content|linebreaksbr }}</p>
+
+  <!-- 🖼 이미지 -->
+  {% if post.image %}
+    <img src="{{ post.image.url }}" alt="게시글 이미지" class="img-fluid mb-4" style="max-width: 400px;">
+    <hr>
+  {% endif %}
+
+  <!-- ✏️ 수정/삭제 or 💬 대화 -->
+  {% if user == post.author %}
+    <div class="mb-3">
+      <a href="{% url 'post_edit' post.pk %}" class="btn btn-outline-primary btn-sm me-2">✏ 수정</a>
+      <a href="{% url 'post_delete' post.pk %}" class="btn btn-outline-danger btn-sm">🗑 삭제</a>
+    </div>
+    <hr>
+  {% elif user.is_authenticated %}
+    <div class="mb-3">
+      <a href="{% url 'chat' post.author.id %}" class="btn btn-outline-success">💬 {{ post.author }}님과 대화하기</a>
+    </div>
+    <hr>
+  {% endif %}
+
+  <!-- 🔙 목록으로 -->
+  <a href="{% url 'post_list' %}" class="btn btn-secondary">← 목록으로</a>
+</div>
+{% endblock %}

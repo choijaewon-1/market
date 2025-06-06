@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}로그인{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-center">🔐 로그인</h2>
+
+<form method="post" class="card p-4 shadow-sm" style="max-width: 400px; margin: auto;">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  <div class="mb-3">
+    <label for="id_username" class="form-label">아이디</label>
+    {{ form.username }}
+    {% if form.username.errors %}
+      <div class="text-danger small">{{ form.username.errors }}</div>
+    {% endif %}
+  </div>
+
+  <div class="mb-3">
+    <label for="id_password" class="form-label">비밀번호</label>
+    {{ form.password }}
+    {% if form.password.errors %}
+      <div class="text-danger small">{{ form.password.errors }}</div>
+    {% endif %}
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100">로그인</button>
+</form>
+
+<div class="text-center mt-3">
+  <p>계정이 없으신가요? <a href="{% url 'signup_email' %}">회원가입</a></p>
+</div>
+{% endblock %}

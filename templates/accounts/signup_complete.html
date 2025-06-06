@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}회원가입 완료{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+  <h2 class="mb-4">🎉 회원가입이 완료되었습니다!</h2>
+  <p class="lead">이제 로그인하여 서비스를 이용하실 수 있습니다.</p>
+  <a href="{% url 'login' %}" class="btn btn-primary mt-3">로그인하러 가기</a>
+</div>
+{% endblock %}

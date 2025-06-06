@@ -1,0 +1,12 @@
+<h2>{{ other_user.username }}님과의 대화</h2>
+<div style="border:1px solid #ccc; padding:10px; height:300px; overflow-y:scroll;">
+  {% for msg in messages %}
+    <p><strong>{{ msg.sender.username }}</strong>: {{ msg.content }} <small>({{ msg.timestamp|date:"H:i" }})</small></p>
+  {% endfor %}
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="content" style="width:80%;" required>
+  <button type="submit">보내기</button>
+</form>

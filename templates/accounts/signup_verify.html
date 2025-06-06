@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}회원가입 - 이메일 인증{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-center">✅ 이메일 인증</h2>
+
+<form method="post" class="card p-4 shadow-sm" style="max-width: 400px; margin: auto;">
+  {% csrf_token %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="mb-3">
+    <label for="verification_code" class="form-label">인증 코드</label>
+    <input type="text" name="verification_code" class="form-control" required placeholder="이메일로 받은 코드">
+  </div>
+
+  <button type="submit" class="btn btn-success w-100">인증 확인</button>
+</form>
+
+<div class="text-center mt-3">
+  <a href="{% url 'signup_email' %}">🔁 이메일 다시 입력하기</a>
+</div>
+{% endblock %}
