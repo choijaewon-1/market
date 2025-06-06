@@ -1,41 +1,13 @@
 {% extends 'base.html' %}
-{% load humanize %}
 
-{% block title %}중고거래 글 목록{% endblock %}
+{% block title %}중고대학 - 글 목록{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">📋 중고거래 글 목록</h2>
+
+<h1 class="text-center display-4 fw-bold mb-4">🎓 중고대학</h1>
 
 <!-- 🔎 검색/필터 폼 -->
 <form method="get" class="row g-2 align-items-end mb-4">
-  <div class="col-md-3">
-    <label class="form-label">카테고리</label>
-    <select name="category" class="form-select">
-      <option value="">전체</option>
-      <option value="도서" {% if category == '도서' %}selected{% endif %}>도서</option>
-      <option value="전자기기" {% if category == '전자기기' %}selected{% endif %}>전자기기</option>
-      <option value="생활용품" {% if category == '생활용품' %}selected{% endif %}>생활용품</option>
-      <option value="기타" {% if category == '기타' %}selected{% endif %}>기타</option>
-    </select>
-  </div>
-
-  <div class="col-md-3">
-    <label class="form-label">정렬</label>
-    <select name="sort" class="form-select">
-      <option value="latest" {% if sort == 'latest' %}selected{% endif %}>최신순</option>
-      <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>가격 낮은순</option>
-      <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>가격 높은순</option>
-    </select>
-  </div>
-
-  <div class="col-md-4">
-    <label class="form-label">검색어</label>
-    <input type="text" name="search" value="{{ search }}" class="form-control" placeholder="제목 또는 내용">
-  </div>
-
-  <div class="col-md-2">
-    <button type="submit" class="btn btn-primary w-100">🔍 검색</button>
-  </div>
 </form>
 
 <!-- 📝 글쓰기 & 마이페이지 버튼 -->
@@ -47,16 +19,23 @@
 <!-- 📄 글 목록 -->
 <div class="list-group">
   {% for post in posts %}
-    <a href="{% url 'post_detail' post.pk %}" class="list-group-item list-group-item-action">
-      <div class="d-flex justify-content-between">
-        <strong>{{ post.title }}</strong>
-        <small class="text-muted">{{ post.created_at|date:"Y-m-d H:i" }}</small>
-      </div>
-      <div class="text-muted small mt-1">
-        👤 {{ post.author }} |
-        💰 {{ post.price|intcomma }}원 |
-        📂 {{ post.category }} |
-        🔄 {{ post.status }}
+    <a href="{% url 'post_detail' post.pk %}" class="list-group-item list-group-item-action mb-3 shadow-sm">
+      <div class="d-flex">
+        {% if post.image %}
+          <img src="{{ post.image.url }}" class="me-3" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">
+        {% endif %}
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between">
+            <strong class="fs-5">{{ post.title }}</strong>
+            <small class="text-muted">{{ post.created_at|date:"Y-m-d H:i" }}</small>
+          </div>
+          <div class="text-muted small mt-1">
+            👤 {{ post.author }} |
+            💰 {{ post.price|intcomma }}원 |
+            📂 {{ post.category }} |
+            🔄 {{ post.status }}
+          </div>
+        </div>
       </div>
     </a>
   {% empty %}
@@ -64,9 +43,4 @@
   {% endfor %}
 </div>
 
-<!-- 로그아웃 버튼 -->
-<hr>
-<div class="text-center mt-4">
-  <a href="{% url 'logout' %}" class="btn btn-outline-danger">🔓 로그아웃</a>
-</div>
 {% endblock %}
