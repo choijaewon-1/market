@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}회원가입 완료{% endblock %}
+{% block title %}회원가입 정보 입력{% endblock %}
 
 {% block content %}
-<div class="text-center mt-5">
-  <h2 class="mb-4">🎉 회원가입이 완료되었습니다!</h2>
-  <p class="lead">이제 로그인하여 서비스를 이용하실 수 있습니다.</p>
-  <a href="{% url 'login' %}" class="btn btn-primary mt-3">로그인하러 가기</a>
-</div>
+<h2 class="mb-4 text-center">👤 회원가입 정보 입력</h2>
+
+<form method="post" class="card p-4 shadow-sm" style="max-width: 500px; margin: auto;">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit" class="btn btn-success w-100">회원가입 완료</button>
+</form>
 {% endblock %}
